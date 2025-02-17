@@ -1,7 +1,11 @@
 import os
 import msvcrt as mv
+import Listas
+import Mantenimiento
+import Vehiculo
 
 def menu():
+    flota = Listas.FlotaVehiculos()
     while True:
         os.system("cls")
         print("--- Taller Cifuentes ---")
@@ -19,7 +23,26 @@ def menu():
 
         if opcion == "1":
             print("Registro de Vehículo")
-            print("--------------------------")   
+            print("--------------------------")
+            placa = input("Ingrese la placa del vehículo: ")
+            marca = input("Ingrese la marca del vehículo: ")
+            modelo = input("Ingrese el modelo del vehículo: ")
+            try:
+                anio = int(input("Ingrese el año del vehículo: "))
+                kilometraje = float(input("Ingrese el kilometraje: "))
+            except ValueError:
+                print("Año o kilometraje inválido.")
+                mv.getch()
+                continue
+
+            try:
+                vehiculo = Vehiculo(placa, marca, modelo, anio, kilometraje)
+            except ValueError as ve:
+                print("Error:", ve)
+                mv.getch()
+                continue
+
+            flota.registrar_vehiculo(vehiculo)   
         elif opcion == "2":
             print("Eliminar vehículo de la Lista")
             print("--------------------------")   
