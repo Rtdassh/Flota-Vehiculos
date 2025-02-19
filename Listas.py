@@ -12,6 +12,50 @@ class NodoVehiculo:
 class ListaMantenimiento:
     def __init__(self):
         self.head = None
+    def agregar(self, mantenimiento):
+        nuevo_nodo = NodoMantenimiento(mantenimiento)
+        if self.head is None:
+            self.head = nuevo_nodo
+        else:
+            actual = self.head
+            while actual.siguiente:
+                actual = actual.siguiente
+            actual.siguiente = nuevo_nodo
+
+    def imprimir(self):
+        actual = self.head
+        if actual is None:
+            print("No hay mantenimientos registrados.")
+            return
+        while actual:
+            m = actual.mantenimiento
+            print(f"Factura: {m.factura} Fecha: {m.fecha}, Descripción: {m.descripcion}, Costo: {m.costo}")
+            actual = actual.siguiente
+
+    def calcular_costo_total(self):
+        total = 0
+        actual = self.head
+        while actual:
+            total += actual.mantenimiento.costo
+            actual = actual.siguiente
+        return total
+
+    def eliminar(self, factura):
+        actual = self.head
+        anterior = None
+        while actual:
+            if actual.mantenimiento.factura == factura:
+                if anterior:
+                    anterior.siguiente = actual.siguiente
+                else:
+                    self.head = actual.siguiente
+                print("Mantenimiento eliminado con éxito.")
+                return True
+            anterior = actual
+            actual = actual.siguiente
+        print("Mantenimiento no encontrado.")
+        return False
+
 
 class FlotaVehiculos:
     def __init__(self):

@@ -2,7 +2,7 @@ import os
 import msvcrt as mv
 import Listas
 import Mantenimiento
-import Vehiculo
+import Vehiculo as Vc
 
 def menu():
     flota = Listas.FlotaVehiculos()
@@ -36,7 +36,7 @@ def menu():
                 continue
 
             try:
-                vehiculo = Vehiculo(placa, marca, modelo, anio, kilometraje)
+                vehiculo = Vc.Vehiculo(placa, marca, modelo, anio, kilometraje)
             except ValueError as ve:
                 print("Error:", ve)
                 mv.getch()
@@ -46,21 +46,73 @@ def menu():
         elif opcion == "2":
             print("Eliminar vehículo de la Lista")
             print("--------------------------")   
+            placa = input("Ingrese la placa del vehículo a eliminar: ")
+            flota.eliminar_vehiculo(placa)
+
         elif opcion == "3":
-           print("Búsqueda de Vehículo")
-           print("--------------------------")   
+            print("Búsqueda de Vehículo")
+            print("--------------------------")   
+            placa = input("Ingrese la placa del vehículo a buscar: ")
+            Vehiculo = flota.buscar_vehiculo(placa)
+            if vehiculo:
+                print(f"Vehículo encontrado:\nPlaca: {vehiculo.placa}, Marca: {vehiculo.marca}, Modelo: {vehiculo.modelo}, Año: {vehiculo.anio}, Kilometraje: {vehiculo.kilometraje}")
+            else:
+                print("Vehículo no encontrado.")
         elif opcion == "4":
             print("Listado de Vehículos")
-            print("--------------------------")   
+            print("--------------------------") 
+            flota.listar_vehiculos()  
         elif opcion == "5":
             print("Agregar Vehículo")
-            print("--------------------------")   
+            print("--------------------------")
+            placa = input("Ingrese la placa del vehículo para agregar mantenimiento: ")
+            vehiculo = flota.buscar_vehiculo(placa)
+            if vehiculo is None:
+                print("Vehículo no encontrado.")
+                mv.getch()
+                continue
+            factura = input("Ingrese el número de Factura: ")
+            fecha = input("Ingrese la fecha del mantenimiento (DD-MM-YYYY): ")
+            descripcion = input("Ingrese la descripción del mantenimiento: ")
+            try:
+                costo = float(input("Ingrese el costo del mantenimiento: "))
+            except ValueError:
+                print("Costo inválido.")
+                mv.getch()
+                continue
+
+            try:
+                mantenimiento = Mantenimiento.Mantenimiento(factura,fecha, descripcion, costo)
+            except ValueError as ve:
+                print("Error:", ve)
+                mv.getch()
+                continue
+
+            vehiculo.agregar_mantenimiento(mantenimiento)
+            print("Mantenimiento agregado con éxito.")   
         elif opcion == "6":
             print("Historial de Mantenimiento")
-            print("--------------------------")   
+            print("--------------------------")
+            placa = input("Ingrese la placa del vehículo para ver su historial de mantenimientos: ")
+            vehiculo = flota.buscar_vehiculo(placa)
+            if vehiculo is None:
+                print("Vehículo no encontrado.")
+                mv.getch()
+                continue
+            print(f"\nHistorial de mantenimientos del vehículo {vehiculo.placa}:")
+            vehiculo.mostrar_historial()   
         elif opcion == "7":
             print("Costo Total de Mantenimientos")
-            print("--------------------------")   
+            print("--------------------------")
+            placa = input("Ingrese la placa del vehículo para calcular el costo total de mantenimientos: ")
+            vehiculo = flota.buscar_vehiculo(placa)
+            if vehiculo is None:
+                print("Vehículo no encontrado.")
+                mv.getch()
+                continue
+            total = vehiculo.costo_total_mantenimientos()
+            print(f"Costo total de mantenimientos: {total}")
+
         elif opcion == "8":
             print("Saliendo del sistema...")
             break
