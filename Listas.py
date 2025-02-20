@@ -57,7 +57,7 @@ class ListaMantenimiento:
         return False
 
 
-class FlotaVehiculos:
+class FlotaVehiculos:   
     def __init__(self):
         self.head = None
         self.tail = None

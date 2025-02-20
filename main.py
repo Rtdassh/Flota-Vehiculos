@@ -53,7 +53,7 @@ def menu():
             print("Búsqueda de Vehículo")
             print("--------------------------")   
             placa = input("Ingrese la placa del vehículo a buscar: ")
-            Vehiculo = flota.buscar_vehiculo(placa)
+            vehiculo = flota.buscar_vehiculo(placa)
             if vehiculo:
                 print(f"Vehículo encontrado:\nPlaca: {vehiculo.placa}, Marca: {vehiculo.marca}, Modelo: {vehiculo.modelo}, Año: {vehiculo.anio}, Kilometraje: {vehiculo.kilometraje}")
             else:

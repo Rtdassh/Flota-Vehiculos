@@ -1,13 +1,14 @@
 import datetime as dt
+import msvcrt as mv
 from Listas import ListaMantenimiento
 
 class Vehiculo:
     def __init__(self, placa, marca, modelo, anio, kilometraje):
-        self.__placa = placa
-        self.__marca = marca
-        self.__modelo = modelo
-        self.__anio = anio
-        self.__kilometraje = kilometraje
+        self.placa = placa
+        self.marca = marca
+        self.modelo = modelo
+        self.anio = anio
+        self.kilometraje = kilometraje
         self.historial = ListaMantenimiento()
 
     @property
@@ -17,7 +18,8 @@ class Vehiculo:
     @placa.setter
     def placa(self, valor):
         if len(valor) < 5 or not valor.isalnum():
-            raise ValueError("Formato de placa incorrecto. Debe ingresar al menos 5 caracteres y ser alfanumérica.")
+           raise ValueError("Formato de placa incorrecto. Debe ingresar al menos 5 caracteres y ser alfanumérica.")
+            
         self.__placa = valor
 
     @property
@@ -57,7 +59,6 @@ class Vehiculo:
             raise ValueError("El kilometraje debe ser un número positivo.")
         self.__kilometraje = valor
 
-    # Métodos historial de mantenimientos
 
     def agregar_mantenimiento(self, mantenimiento):
         self.historial.agregar(mantenimiento)
